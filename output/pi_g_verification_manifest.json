@@ -1,0 +1,117 @@
+{
+  "title": "Referee-safe cross-domain numerical consistency checks for Baker's pi_g",
+  "working_precision_decimal_digits": 120,
+  "level_count": 11,
+  "maximum_level": 10,
+  "pi_g_decimal": "3.141592653589793238462643383279502884197169399375105820974944592307816406286208996003430131146066535",
+  "reference_pi_decimal": "3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117068",
+  "diagnostic_abs_pi_g_minus_pi": "2.624604694196050533234281235447495468803e-81",
+  "internal_last_diagonal_delta": "1.688887830153689364524207286749384863475e-68",
+  "maximum_root_bracket_width": "9.963196694712115144944567522777843452094e-101",
+  "maximum_root_polynomial_residual": "1.407350051362974937322779184560154283478e-100",
+  "software": {
+    "python": "3.13.5",
+    "mpmath": "1.3.0",
+    "platform": "Linux-4.4.0-x86_64-with-glibc2.41"
+  },
+  "checks": [
+    {
+      "identifier": "G1",
+      "name": "Gaussian integral",
+      "domain": "Analysis / probability",
+      "method": "finite quadrature, analytic two-sided tail bound, repeat-precision stability check",
+      "observed_metric_name": "abs(sqrt(pi_g) - finite integral)",
+      "passed": true,
+      "details": "cutoff A=13; analytic tail<=3.09235401211027327e-75; repeat-precision delta=0",
+      "observed_metric": "3.083284322282542757142157833713295215092e-75",
+      "acceptance_bound": "3.092354012110273267561799054671991973601e-75"
+    },
+    {
+      "identifier": "B2",
+      "name": "Basel identity",
+      "domain": "Number theory",
+      "method": "central-binomial zeta(2) series with geometric ratio tail bound",
+      "observed_metric_name": "abs(pi_g^2/6 - accelerated partial sum)",
+      "passed": true,
+      "details": "terms=120; explicit tail<=7.54477984299203221e-76",
+      "observed_metric": "7.514080526272655547837882338257559487748e-76",
+      "acceptance_bound": "7.544779842992032207644112139077481165552e-76"
+    },
+    {
+      "identifier": "L3",
+      "name": "Gregory-Leibniz identity",
+      "domain": "Series",
+      "method": "Euler-transformed alternating series with explicit ratio tail bound",
+      "observed_metric_name": "abs(pi_g/4 - transformed partial sum)",
+      "passed": true,
+      "details": "transformed terms=230; explicit tail<=3.38123188466223775e-71",
+      "observed_metric": "3.373975626230674289979408472449652908271e-71",
+      "acceptance_bound": "3.381231884662237752500769993393266783393e-71"
+    },
+    {
+      "identifier": "W4",
+      "name": "Wallis product",
+      "domain": "Infinite products",
+      "method": "standard two-sided finite Wallis enclosure",
+      "observed_metric_name": "interval violation",
+      "passed": true,
+      "details": "terms=100000; enclosure width=7.85396199914311595e-6; lower gap=3.92696627342962505e-6; upper gap=3.9269957257134909e-6",
+      "observed_metric": "0",
+      "acceptance_bound": "1.0e-105"
+    },
+    {
+      "identifier": "S5",
+      "name": "Robbins-Stirling bounds",
+      "domain": "Asymptotics / combinatorics",
+      "method": "exact log-factorial sum tested inside Robbins' two-sided bounds",
+      "observed_metric_name": "maximum bound violation",
+      "passed": true,
+      "details": "n=[10, 100, 1000, 10000]; smallest positive log-margin=2.7777777698412699e-15 at n=10000",
+      "observed_metric": "0",
+      "acceptance_bound": "1.0e-105"
+    },
+    {
+      "identifier": "H6",
+      "name": "Gamma at one half",
+      "domain": "Special functions",
+      "method": "direct residual gamma(1/2)^2 - pi_g",
+      "observed_metric_name": "abs(gamma(1/2)^2 - pi_g)",
+      "passed": true,
+      "details": "library-level cross-check; not claimed to be algorithmically independent of pi",
+      "observed_metric": "2.624604694196050533234281235447495468803e-81",
+      "acceptance_bound": "1.0e-65"
+    },
+    {
+      "identifier": "E7",
+      "name": "Euler identity",
+      "domain": "Complex analysis",
+      "method": "direct complex residual exp(i*pi_g)+1",
+      "observed_metric_name": "abs(exp(i*pi_g)+1)",
+      "passed": true,
+      "details": "no classical pi appears in the tested expression",
+      "observed_metric": "2.624604694196050533234281235447495468803e-81",
+      "acceptance_bound": "1.0e-65"
+    },
+    {
+      "identifier": "R8",
+      "name": "Euler reflection formula",
+      "domain": "Complex analysis / special functions",
+      "method": "direct normalized residual at three rational arguments",
+      "observed_metric_name": "maximum normalized reflection residual",
+      "passed": true,
+      "details": "z in {1/3, 2/5, 1/7}; worst z=0.4",
+      "observed_metric": "4.943233174991312699132015597227297230458e-82",
+      "acceptance_bound": "1.0e-65"
+    }
+  ],
+  "all_checks_pass": true,
+  "overall_verdict": "PI_G_CROSS_DOMAIN_CONSISTENCY_CHECKS_PASS",
+  "claim_boundary": "Cross-domain numerical consistency checks only. The suite does not prove pi_g=pi. Special-function checks are not asserted to be implementation-independent.",
+  "sha256": {
+    "pi_g_construction.py": "d0ebc5d054cc8f4efe7fe5dd449e7f607af82088cdc96653b6b4393dd9ecfdac",
+    "verify_pi_g_identities.py": "9092d0d6856c8d67eebdc3c429441bc9e6214e7a688549d37db8123d9155eb9c",
+    "pi_g_verification_results.csv": "cbe0671e194f1ec03b467e9459703b28b7f82cce81a133a4cd6b339a7b9ac09c",
+    "pi_g_verification_output.txt": "7688e44c3168b265afb42662c16627e6f7cb703dac23ebc99d5f3cec4af56d24",
+    "pi_g_verification_summary.txt": "c8c857adf712a2a98ba7302d144f9d50333ca99a81382e9b8eafeb34ffefcdf3"
+  }
+}

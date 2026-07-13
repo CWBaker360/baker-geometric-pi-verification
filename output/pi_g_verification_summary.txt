@@ -1,0 +1,10 @@
+Baker pi_g referee-safe numerical verification summary
+==========================================================
+checks_passed: 8/8
+working_precision_decimal_digits: 120
+level_count: 11
+maximum_level: 10
+diagnostic_abs_pi_g_minus_pi: 2.62460469419605053323428123545e-81
+internal_last_diagonal_delta: 1.68888783015368936452420728675e-68
+overall_verdict: PI_G_CROSS_DOMAIN_CONSISTENCY_CHECKS_PASS
+claim_boundary: numerical consistency checks only; equality is not proved by this suite.

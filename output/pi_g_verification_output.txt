@@ -1,0 +1,45 @@
+REFEREE-SAFE PI_G CROSS-DOMAIN CONSISTENCY SUITE
+========================================================================
+working precision: 120 decimal digits
+construction inputs: L=0,...,10 (11 polygon values)
+construction selection: final N-series value, deterministic, no pi oracle
+pi_g: 3.14159265358979323846264338327950288419716939937510582097494459230781640628620899600343013
+reference pi: 3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803483
+diagnostic abs(pi_g-pi): 2.62460469419605053323428123545e-81
+internal last-diagonal delta (diagnostic, not a rigorous error bound): 1.68888783015368936452420728675e-68
+maximum cubic root bracket width: 9.96319669471211514494456752278e-101
+maximum cubic midpoint polynomial residual: 1.40735005136297493732277918456e-100
+
+DIRECT CHECK RESULTS
+------------------------------------------------------------------------
+G1 Gaussian integral: observed=3.08328432228254275714216e-75; bound=3.0923540121102732675618e-75; status=PASS
+    method: finite quadrature, analytic two-sided tail bound, repeat-precision stability check
+    details: cutoff A=13; analytic tail<=3.09235401211027327e-75; repeat-precision delta=0
+B2 Basel identity: observed=7.51408052627265554783788e-76; bound=7.54477984299203220764411e-76; status=PASS
+    method: central-binomial zeta(2) series with geometric ratio tail bound
+    details: terms=120; explicit tail<=7.54477984299203221e-76
+L3 Gregory-Leibniz identity: observed=3.37397562623067428997941e-71; bound=3.38123188466223775250077e-71; status=PASS
+    method: Euler-transformed alternating series with explicit ratio tail bound
+    details: transformed terms=230; explicit tail<=3.38123188466223775e-71
+W4 Wallis product: observed=0; bound=1.0e-105; status=PASS
+    method: standard two-sided finite Wallis enclosure
+    details: terms=100000; enclosure width=7.85396199914311595e-6; lower gap=3.92696627342962505e-6; upper gap=3.9269957257134909e-6
+S5 Robbins-Stirling bounds: observed=0; bound=1.0e-105; status=PASS
+    method: exact log-factorial sum tested inside Robbins' two-sided bounds
+    details: n=[10, 100, 1000, 10000]; smallest positive log-margin=2.7777777698412699e-15 at n=10000
+H6 Gamma at one half: observed=2.62460469419605053323428e-81; bound=1.0e-65; status=PASS
+    method: direct residual gamma(1/2)^2 - pi_g
+    details: library-level cross-check; not claimed to be algorithmically independent of pi
+E7 Euler identity: observed=2.62460469419605053323428e-81; bound=1.0e-65; status=PASS
+    method: direct complex residual exp(i*pi_g)+1
+    details: no classical pi appears in the tested expression
+R8 Euler reflection formula: observed=4.94323317499131269913202e-82; bound=1.0e-65; status=PASS
+    method: direct normalized residual at three rational arguments
+    details: z in {1/3, 2/5, 1/7}; worst z=0.4
+
+checks passed: 8/8
+overall_verdict: PI_G_CROSS_DOMAIN_CONSISTENCY_CHECKS_PASS
+
+CLAIM BOUNDARY
+------------------------------------------------------------------------
+These are cross-domain numerical consistency checks. They do not prove pi_g=pi, and the special-function checks are not claimed to be algorithmically independent of the numerical library's implementation of pi.

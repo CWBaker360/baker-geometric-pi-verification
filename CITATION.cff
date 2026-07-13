@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use or discuss this work, please cite it using the metadata below."
+title: "Cross-Domain Numerical Consistency Checks for Baker's Geometric Constant pi_g"
+type: article
+authors:
+  - family-names: Baker
+    given-names: Wayne
+date-released: 2026-07-12
+version: "2.1"
+repository-code: "https://github.com/CWBaker360/baker-geometric-pi-verification"
+url: "https://github.com/CWBaker360/baker-geometric-pi-verification"
+abstract: >-
+  A synchronized numerical verification suite for Baker's algebraically
+  constructed geometric constant pi_g. The oracle-free construction uses a
+  certified cubic branch and a scale-3 Richardson table. Eight bounded or
+  directly residualized cross-domain consistency checks pass at 120 decimal
+  digits. The computations are corroborative and do not prove pi_g=pi.
+keywords:
+  - geometric pi
+  - pi_g
+  - constructive geometry
+  - Richardson extrapolation
+  - cubic root certification
+  - numerical verification
+  - reproducibility
+  - high precision
+license: proprietary
