@@ -36,8 +36,11 @@ E7 Euler identity: observed=2.62460469419605053323428e-81; bound=1.0e-65; status
 R8 Euler reflection formula: observed=4.94323317499131269913202e-82; bound=1.0e-65; status=PASS
     method: direct normalized residual at three rational arguments
     details: z in {1/3, 2/5, 1/7}; worst z=0.4
+N9 Richardson tableau a priori enclosure: observed=2.62460469419605053323428e-81; bound=1.2457895335713805521915e-77; status=PASS
+    method: closed-form sine Taylor remainder bound combined with the tableau's fixed data-independent linear weights and the propagated cubic-root bracket width
+    details: s=9 (degree of exactly-cancelled polynomial part); a priori enclosure=1.24578953357138055e-77
 
-checks passed: 8/8
+checks passed: 9/9
 overall_verdict: PI_G_CROSS_DOMAIN_CONSISTENCY_CHECKS_PASS
 
 CLAIM BOUNDARY

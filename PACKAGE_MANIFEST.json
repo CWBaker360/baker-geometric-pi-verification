@@ -1,0 +1,147 @@
+{
+  "package": "baker-geometric-pi-verification",
+  "version": "2.2.0",
+  "release_date": "2026-08-27",
+  "author": "Wayne Baker",
+  "repository": "https://github.com/CWBaker360/baker-geometric-pi-verification",
+  "licenses": {
+    "code": "MIT",
+    "paper_and_documentation": "CC-BY-4.0"
+  },
+  "verification": {
+    "working_precision_decimal_digits": 120,
+    "declared_checks": 9,
+    "expected_verdict": "PI_G_CROSS_DOMAIN_CONSISTENCY_CHECKS_PASS"
+  },
+  "notes": [
+    "PACKAGE_MANIFEST.json does not hash itself.",
+    "SHA256SUMS.txt is generated after PACKAGE_MANIFEST.json and is not listed in the manifest."
+  ],
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 301,
+      "sha256": "616754786fd740aff455df211a9bf4ca168a3f23bc41dbd78ded4c3e838a5f7e"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "bytes": 1131,
+      "sha256": "a1d6c5859aa158868fed6115166c8f81b95a880c2c1e23d0e8ebc5ed09ba5386"
+    },
+    {
+      "path": "CITATION.cff",
+      "bytes": 1039,
+      "sha256": "5260937430a7a900bb13245edc60ef1d31fe55d2788c53d715c3d6568126c66f"
+    },
+    {
+      "path": "LICENSE_CODE",
+      "bytes": 1068,
+      "sha256": "447db2f837cfdefa4ddb8e7e0086fd3b29ac549a7290e9d95a7021fe0fb67921"
+    },
+    {
+      "path": "LICENSE_CONTENT.md",
+      "bytes": 728,
+      "sha256": "784bbbb1639b1c5329461d91cb70692c434b691a2009e11c8faa31029b71af96"
+    },
+    {
+      "path": "LICENSE_NOTICE.md",
+      "bytes": 724,
+      "sha256": "2d66cec41a0632909af30079fac9d5b05428ed0553a73900efbead8ae014001a"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3471,
+      "sha256": "153aa4ef4e1f9f14bc132c783649f654646d9f03500f1162efb3fa1e546887dd"
+    },
+    {
+      "path": "REPRODUCIBILITY.md",
+      "bytes": 1389,
+      "sha256": "fcf5a83a0d2de9db366825938fcaf3ad4bfd1b7eea594d042cd82e4dedd49aa6"
+    },
+    {
+      "path": "REQUIREMENTS.txt",
+      "bytes": 374,
+      "sha256": "3906df431e9e12a18956bee08588f83b226980729532fbba45f12f1598a65eb2"
+    },
+    {
+      "path": "build_pi_g_report.py",
+      "bytes": 18316,
+      "sha256": "fdfc646eb8b4faa40f0333bbfe87c8cbbee41b9e807dea0f4f70a5bfd951b333"
+    },
+    {
+      "path": "docs/abstract.md",
+      "bytes": 750,
+      "sha256": "f99b5f2ac7e09286ae1f5713965e3cbae312141737b12b6d5b7c2bc4755c70e1"
+    },
+    {
+      "path": "docs/claim_boundary.md",
+      "bytes": 526,
+      "sha256": "5f8dc208896a09a6dacfa14c95bae1d510c76e5e5fe6f8e1de73b069434d4fad"
+    },
+    {
+      "path": "docs/github_upload_checklist.md",
+      "bytes": 640,
+      "sha256": "3f824f445c33a839a00029546e56c0ae3c61d3ee49b6f8e80eb2fd3e0c2df264"
+    },
+    {
+      "path": "docs/repository_description.md",
+      "bytes": 407,
+      "sha256": "9094469ccdf7868e539806efa9b4a4693a51fe70080d6655999f00c409629912"
+    },
+    {
+      "path": "output/README.md",
+      "bytes": 260,
+      "sha256": "4c2a5b785aa310a0b05e0cdf2da03e48cde3257ccf298788a7401d796c389e22"
+    },
+    {
+      "path": "output/pi_g_verification_manifest.json",
+      "bytes": 6250,
+      "sha256": "d949a3b9b9b91097d8c2f2c0b64f2da0b2f4c21f2293b505889aad956855a55d"
+    },
+    {
+      "path": "output/pi_g_verification_output.txt",
+      "bytes": 3629,
+      "sha256": "e1ef6c81cf490b398fd24726d180f26c6a12d57858e2d47500006b551e0a0ffc"
+    },
+    {
+      "path": "output/pi_g_verification_results.csv",
+      "bytes": 2596,
+      "sha256": "450fd97f9100a30f4d793cfb4a3874a7c170ea4e5539778f2313c6a64641c616"
+    },
+    {
+      "path": "output/pi_g_verification_summary.txt",
+      "bytes": 485,
+      "sha256": "135e102b2c7348c0c26ea8fea88c43f79bc938ee3afcffdb4797151145619f7a"
+    },
+    {
+      "path": "paper/README.md",
+      "bytes": 329,
+      "sha256": "7791b5f99ff03c1e9ee2bd70358248ec2ac14a18208790c13b3833513ecc6534"
+    },
+    {
+      "path": "paper/pi_g_verification_report.pdf",
+      "bytes": 461797,
+      "sha256": "9191131f729f099251a7b1ca45df416dc0407b062baceb0e48d2e871f8f5ed02"
+    },
+    {
+      "path": "paper/pi_g_verification_report.tex",
+      "bytes": 47432,
+      "sha256": "71bb1f2fb23faab6b5efca85e6561f02667355f123479349ddc1a4c6598167bd"
+    },
+    {
+      "path": "pi_g_construction.py",
+      "bytes": 7551,
+      "sha256": "cc9c6c1991297d6f2aa9cfcd849fd5643120eb2b2ab308ae709674b5071a7c6f"
+    },
+    {
+      "path": "scripts/README.md",
+      "bytes": 350,
+      "sha256": "d5a32a85498e3614bff84a797e54c07fa548d2cf373b8aa32e64ee9d02919b44"
+    },
+    {
+      "path": "verify_pi_g_identities.py",
+      "bytes": 21826,
+      "sha256": "d5b6e2b7a642135718dbe03a5051a0e711b169bcb0084b191104385bc09224f1"
+    }
+  ]
+}

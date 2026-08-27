@@ -5,14 +5,14 @@ type: article
 authors:
   - family-names: Baker
     given-names: Wayne
-date-released: 2026-07-12
-version: "2.1"
+date-released: 2026-08-27
+version: "2.2.0"
 repository-code: "https://github.com/CWBaker360/baker-geometric-pi-verification"
 url: "https://github.com/CWBaker360/baker-geometric-pi-verification"
 abstract: >-
   A synchronized numerical verification suite for Baker's algebraically
   constructed geometric constant pi_g. The oracle-free construction uses a
-  certified cubic branch and a scale-3 Richardson table. Eight bounded or
+  certified cubic branch and a scale-3 Richardson table. Nine bounded or
   directly residualized cross-domain consistency checks pass at 120 decimal
   digits. The computations are corroborative and do not prove pi_g=pi.
 keywords:
@@ -24,4 +24,4 @@ keywords:
   - numerical verification
   - reproducibility
   - high precision
-license: proprietary
+license: CC-BY-4.0

@@ -12,7 +12,7 @@
   "software": {
     "python": "3.13.5",
     "mpmath": "1.3.0",
-    "platform": "Linux-4.4.0-x86_64-with-glibc2.41"
+    "platform": "Linux-6.18.35-x86_64-with-glibc2.41"
   },
   "checks": [
     {
@@ -102,16 +102,27 @@
       "details": "z in {1/3, 2/5, 1/7}; worst z=0.4",
       "observed_metric": "4.943233174991312699132015597227297230458e-82",
       "acceptance_bound": "1.0e-65"
+    },
+    {
+      "identifier": "N9",
+      "name": "Richardson tableau a priori enclosure",
+      "domain": "Asymptotic analysis / numerical linear algebra",
+      "method": "closed-form sine Taylor remainder bound combined with the tableau's fixed data-independent linear weights and the propagated cubic-root bracket width",
+      "observed_metric_name": "abs(pi_g - pi) [reported for comparison; not used to derive the bound]",
+      "passed": true,
+      "details": "s=9 (degree of exactly-cancelled polynomial part); a priori enclosure=1.24578953357138055e-77",
+      "observed_metric": "2.624604694196050533234281235447495468803e-81",
+      "acceptance_bound": "1.24578953357138055219149828817270338655e-77"
     }
   ],
   "all_checks_pass": true,
   "overall_verdict": "PI_G_CROSS_DOMAIN_CONSISTENCY_CHECKS_PASS",
   "claim_boundary": "Cross-domain numerical consistency checks only. The suite does not prove pi_g=pi. Special-function checks are not asserted to be implementation-independent.",
   "sha256": {
-    "pi_g_construction.py": "d0ebc5d054cc8f4efe7fe5dd449e7f607af82088cdc96653b6b4393dd9ecfdac",
-    "verify_pi_g_identities.py": "9092d0d6856c8d67eebdc3c429441bc9e6214e7a688549d37db8123d9155eb9c",
-    "pi_g_verification_results.csv": "cbe0671e194f1ec03b467e9459703b28b7f82cce81a133a4cd6b339a7b9ac09c",
-    "pi_g_verification_output.txt": "7688e44c3168b265afb42662c16627e6f7cb703dac23ebc99d5f3cec4af56d24",
-    "pi_g_verification_summary.txt": "c8c857adf712a2a98ba7302d144f9d50333ca99a81382e9b8eafeb34ffefcdf3"
+    "pi_g_construction.py": "cc9c6c1991297d6f2aa9cfcd849fd5643120eb2b2ab308ae709674b5071a7c6f",
+    "verify_pi_g_identities.py": "d5b6e2b7a642135718dbe03a5051a0e711b169bcb0084b191104385bc09224f1",
+    "pi_g_verification_results.csv": "450fd97f9100a30f4d793cfb4a3874a7c170ea4e5539778f2313c6a64641c616",
+    "pi_g_verification_output.txt": "e1ef6c81cf490b398fd24726d180f26c6a12d57858e2d47500006b551e0a0ffc",
+    "pi_g_verification_summary.txt": "135e102b2c7348c0c26ea8fea88c43f79bc938ee3afcffdb4797151145619f7a"
   }
 }

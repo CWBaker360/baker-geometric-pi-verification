@@ -1,14 +1,24 @@
 # License Notice
 
-Copyright © 2026 Wayne Baker. All rights reserved.
+Copyright © 2026 Wayne Baker.
 
-The paper, LaTeX source, Python programs, output ledgers, and documentation are
-provided for reading, scholarly discussion, citation, and reproducibility
-review.
+This repository uses a dual-license structure.
 
-No permission is granted to redistribute modified versions, republish the work,
-or use it commercially without prior written authorization from the copyright
-holder.
+## Code
 
-Repository hosting does not place the contents in the public domain and does
-not imply an open-source license.
+The Python source code and other software files are licensed under the MIT License.
+See [`LICENSE_CODE`](LICENSE_CODE).
+
+## Paper and documentation
+
+The paper, LaTeX source, documentation, explanatory text, figures, and generated
+non-code content are licensed under the Creative Commons Attribution 4.0
+International License (CC BY 4.0), unless otherwise noted.
+See [`LICENSE_CONTENT.md`](LICENSE_CONTENT.md).
+
+## Attribution
+
+When reusing material, please cite the repository and the associated paper using
+`CITATION.cff` where appropriate.
+
+No part of this repository is placed in the public domain by this notice.

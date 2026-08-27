@@ -5,7 +5,7 @@ The algebraic construction is imported from ``pi_g_construction.py``.  The
 classical constant pi is used only after construction, for a separately
 labelled reference comparison.  It is never used to choose or alter pi_g.
 
-The eight PASS criteria are direct identity residuals or explicit finite
+The nine PASS criteria are direct identity residuals or explicit finite
 truncation enclosures.  They are not comparisons between two right-hand sides
 that both already contain pi.
 """
@@ -26,7 +26,7 @@ from typing import Callable, Iterable
 import mpmath
 from mpmath import mp
 
-from pi_g_construction import PiGConstructionResult, compute_pi_g
+from pi_g_construction import PiGConstructionResult, compute_pi_g, richardson_tableau_weights
 
 
 DEFAULT_WORK_DPS = 120
@@ -311,6 +311,86 @@ def check_reflection_formula(pi_g: mp.mpf) -> CheckResult:
     )
 
 
+def check_richardson_enclosure(construction: PiGConstructionResult) -> CheckResult:
+    """A priori enclosure for the N-series Richardson diagonal (closes the
+    'internal last-diagonal delta is a diagnostic, not a bound' gap).
+
+    For N = 6*3^j, the exact identity Q_N := N*sin(pi/N) satisfies
+
+        Q_N = S_s(N) + T_s(N),
+
+    where S_s(N) = sum_{k=0}^{s} (-1)^k pi^(2k+1)/(2k+1)! * N^(-2k) is the
+    exact degree-s polynomial in N^(-2) coming from the classical sine
+    Taylor series (a closed-form analytic fact, not a numerical fit), and
+    T_s(N) is the Taylor remainder. Since pi/N <= pi/6 < 1 and the Taylor
+    terms of sin are alternating with strictly decreasing magnitude on this
+    range, the alternating-series remainder theorem gives the explicit,
+    unconditional bound
+
+        |T_s(N)| <= pi^(2s+3) / (2s+3)! / N^(2s+2).
+
+    richardson_n_series is a fixed linear combination of its n inputs, with
+    weights depending only on n, not on the data; those weights are
+    recovered exactly via richardson_tableau_weights. With s = n - 2, the
+    degree-s polynomial part S_s is annihilated exactly by an n-node
+    tableau (verified separately: feeding S_s through the tableau
+    reproduces pi to working-precision round-off, no remainder-bound
+    slack). The only surviving contributions to |diagonal(Q) - pi| are then:
+
+      (a) the weighted Taylor remainders  sum_i |w_i| * |T_s(N_i)|,
+      (b) the weighted propagated cubic-root bracket widths, since each
+          constructed value differs from the true Q_{N_i} by at most the
+          certified bracket width, and
+      (c) a fixed working-precision round-off allowance.
+
+    This bound never consults the numerical value of pi_g: it uses only
+    the closed-form sine Taylor remainder theorem and the data-independent
+    tableau weights.
+    """
+
+    n = construction.level_count
+    s = n - 2
+    if s < 1:
+        raise ValueError("level_count must be at least 3 for this enclosure")
+
+    with mp.workdps(construction.work_dps):
+        weights = richardson_tableau_weights(n, construction.work_dps)
+
+        def remainder_bound(level: int) -> mp.mpf:
+            n_sides = mp.mpf(6) * mp.power(3, level)
+            return mp.power(mp.pi, 2 * s + 3) / mp.factorial(2 * s + 3) / mp.power(
+                n_sides, 2 * s + 2
+            )
+
+        bracket_width = construction.maximum_root_bracket_width
+        roundoff = mp.power(10, -(construction.work_dps - 15))
+
+        enclosure = roundoff
+        for level in range(n):
+            enclosure += abs(weights[level]) * (remainder_bound(level) + bracket_width)
+
+    residual = abs(construction.value - mp.pi)
+
+    return CheckResult(
+        identifier="N9",
+        name="Richardson tableau a priori enclosure",
+        domain="Asymptotic analysis / numerical linear algebra",
+        method=(
+            "closed-form sine Taylor remainder bound combined with the "
+            "tableau's fixed data-independent linear weights and the "
+            "propagated cubic-root bracket width"
+        ),
+        observed_metric_name="abs(pi_g - pi) [reported for comparison; not used to derive the bound]",
+        observed_metric=residual,
+        acceptance_bound=enclosure,
+        passed=residual <= enclosure,
+        details=(
+            f"s={s} (degree of exactly-cancelled polynomial part); "
+            f"a priori enclosure={sci(enclosure)}"
+        ),
+    )
+
+
 def write_csv(path: Path, checks: Iterable[CheckResult]) -> None:
     fieldnames = [
         "identifier",
@@ -425,6 +505,7 @@ def main() -> None:
         check_gamma_half(construction.value),
         check_euler_identity(construction.value),
         check_reflection_formula(construction.value),
+        check_richardson_enclosure(construction),
     ]
 
     all_pass = all(check.passed for check in checks)

@@ -7,4 +7,4 @@ python verify_pi_g_identities.py --output-dir output
 ```
 
 The canonical output text is byte-for-byte identical to the output listing
-embedded in the Version 2.1 report.
+embedded in the Version 2.2.0 report.

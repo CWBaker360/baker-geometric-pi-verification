@@ -160,6 +160,26 @@ def richardson_n_series(values: Sequence[mp.mpf]) -> tuple[mp.mpf, tuple[mp.mpf,
     return final, tuple(diagonal)
 
 
+def richardson_tableau_weights(level_count: int, work_dps: int) -> tuple[mp.mpf, ...]:
+    """Return the fixed, data-independent weights of the final diagonal entry.
+
+    ``richardson_n_series`` is linear in its input values, so the final
+    diagonal entry can be written as ``sum_i weight_i * values[i]`` for a
+    weight vector that depends only on ``level_count`` (not on the data).
+    Those weights are recovered here by feeding unit basis vectors through
+    the identical routine used for construction.  This is exact linear
+    algebra, not a numerical fit: no reference constant is consulted.
+    """
+
+    with mp.workdps(work_dps):
+        weights = []
+        for i in range(level_count):
+            basis = [mp.mpf(1) if j == i else mp.mpf(0) for j in range(level_count)]
+            final, _ = richardson_n_series(basis)
+            weights.append(+final)
+        return tuple(weights)
+
+
 def compute_pi_g(*, level_count: int = 11, work_dps: int = 120) -> PiGConstructionResult:
     """Compute pi_g without consulting the classical constant pi.
 
