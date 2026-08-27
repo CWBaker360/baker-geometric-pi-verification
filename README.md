@@ -1,8 +1,8 @@
 # Cross-Domain Numerical Consistency Checks for Baker's Geometric Constant pi_g
 
 **Author:** Wayne Baker  
-**Date:** July 12, 2026  
-**Version:** 2.1  
+**Date:** August 27, 2026  
+**Version:** 2.2.0  
 **Status:** Referee-safe computational appendix / reproducibility archive
 
 This repository contains the paper, algebraic construction module, verification
@@ -41,7 +41,7 @@ or candidate selection.
 
 ## Verification suite
 
-After pi_g is fixed, eight declared checks are evaluated:
+After pi_g is fixed, nine declared checks are evaluated:
 
 - Gaussian integral with an analytic tail enclosure
 - central-binomial Basel series with an explicit tail bound
@@ -51,8 +51,9 @@ After pi_g is fixed, eight declared checks are evaluated:
 - Gamma at one half
 - Euler's identity
 - Euler's reflection formula at three rational arguments
+- Richardson-tableau a priori enclosure using Taylor remainders, fixed data-independent weights, and propagated cubic-root bracket width
 
-All eight checks pass at 120-decimal-digit working precision.
+All nine checks pass at 120-decimal-digit working precision.
 
 ## Claim boundary
 
@@ -85,8 +86,12 @@ and canonical output log embedded in the LaTeX report, and compiles the PDF.
 ├── README.md
 ├── CITATION.cff
 ├── REPRODUCIBILITY.md
+├── LICENSE_CODE
+├── LICENSE_CONTENT.md
 ├── LICENSE_NOTICE.md
 ├── CHANGELOG.md
+├── REQUIREMENTS.txt
+├── PACKAGE_MANIFEST.json
 ├── SHA256SUMS.txt
 ├── .gitignore
 ├── pi_g_construction.py
@@ -111,6 +116,6 @@ and canonical output log embedded in the LaTeX report, and compiles the PDF.
     └── github_upload_checklist.md
 ```
 
-## Rights
+## License
 
-Copyright © 2026 Wayne Baker. All rights reserved unless otherwise stated.
+Python code is licensed under the MIT License. The paper, LaTeX source, documentation, and other non-code content are licensed under CC BY 4.0. See `LICENSE_NOTICE.md` for details.
