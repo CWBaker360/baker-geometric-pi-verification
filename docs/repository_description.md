@@ -2,7 +2,7 @@
 
 ## GitHub About description
 
-A referee-safe computational appendix for Baker's geometric pi_g, with certified cubic branch selection and eight bounded consistency checks.
+A referee-safe computational appendix for Baker's geometric pi_g, with certified cubic branch selection and nine bounded consistency checks.
 
 ## Suggested topics
 

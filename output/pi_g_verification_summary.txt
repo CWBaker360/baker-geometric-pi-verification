@@ -1,6 +1,6 @@
 Baker pi_g referee-safe numerical verification summary
 ==========================================================
-checks_passed: 8/8
+checks_passed: 9/9
 working_precision_decimal_digits: 120
 level_count: 11
 maximum_level: 10

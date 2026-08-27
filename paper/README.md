@@ -1,6 +1,6 @@
 # Paper
 
-This directory contains the authoritative Version 2.1 report pair:
+This directory contains the authoritative Version 2.2.0 report pair:
 
 ```text
 pi_g_verification_report.tex

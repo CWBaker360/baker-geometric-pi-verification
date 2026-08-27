@@ -56,13 +56,13 @@
 
 \title{Cross-Domain Numerical Consistency Checks\\for Baker's Geometric Constant $\pig$}
 \author{Wayne Baker}
-\date{July 12, 2026\\Referee-safe computational appendix, Version 2.1}
+\date{August 27, 2026\\Referee-safe computational appendix, Version 2.2.0}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-This report documents a synchronized, reproducible numerical verification suite for Baker's algebraically constructed geometric constant $\pig$.  The construction module begins with the exact hexagon seed $c_0=1/2$, selects the required cubic branch by a deterministic sign-changing bracket, forms the polygon sequence $P_L=6\cdot3^L c_L$, and applies the scale-$3$ even-power Richardson table.  The classical constant $\pi$ is not consulted during construction or result selection.  After $\pig$ has been fixed, eight cross-domain checks are performed using direct residuals, explicit truncation enclosures, or two-sided inequalities.  All eight checks pass at 120-decimal-digit working precision.  These computations are consistency evidence, not a substitute for a proof of $\pig=\pi$.
+This report documents a synchronized, reproducible numerical verification suite for Baker's algebraically constructed geometric constant $\pig$.  The construction module begins with the exact hexagon seed $c_0=1/2$, selects the required cubic branch by a deterministic sign-changing bracket, forms the polygon sequence $P_L=6\cdot3^L c_L$, and applies the scale-$3$ even-power Richardson table.  The classical constant $\pi$ is not consulted during construction or result selection.  After $\pig$ has been fixed, nine cross-domain checks are performed using direct residuals, explicit truncation enclosures, or two-sided inequalities.  All nine checks pass at 120-decimal-digit working precision.  These computations are consistency evidence, not a substitute for a proof of $\pig=\pi$.
 \end{abstract}
 
 \tableofcontents
@@ -73,7 +73,7 @@ This report documents a synchronized, reproducible numerical verification suite 
 The computational claim is deliberately limited:
 
 \begin{quote}
-The algebraic pipeline produces a fixed high-precision value $\pig$.  That value satisfies eight stated numerical consistency checks within their declared acceptance bounds.
+The algebraic pipeline produces a fixed high-precision value $\pig$.  That value satisfies nine stated numerical consistency checks within their declared acceptance bounds.
 \end{quote}
 
 The suite does \emph{not} prove $\pig=\pi$.  Equality must rest on the associated mathematical argument connecting the chord cascade and polygonal limit to the classical analytic constant.  The tests below illustrate consequences of that equality and provide a reproducibility audit of the implementation.
@@ -241,6 +241,7 @@ S5 & exact log-factorial sum tested inside Robbins' two-sided bounds & \texttt{1
 H6 & direct residual gamma(1/2)\textasciicircum{}2 - pi\_g & \texttt{1.0e-65} \\
 E7 & direct complex residual exp(i*pi\_g)+1 & \texttt{1.0e-65} \\
 R8 & direct normalized residual at three rational arguments & \texttt{1.0e-65} \\
+N9 & closed-form sine Taylor remainder bound combined with the tableau's fixed data-independent linear weights and the propagated cubic-root bracket width & \texttt{1.24578953e-77} \\
 \bottomrule
 \end{longtable}
 
@@ -330,10 +331,11 @@ S5 & Robbins-Stirling bounds & \texttt{0} & PASS \\
 H6 & Gamma at one half & \texttt{2.62460469e-81} & PASS \\
 E7 & Euler identity & \texttt{2.62460469e-81} & PASS \\
 R8 & Euler reflection formula & \texttt{4.94323317e-82} & PASS \\
+N9 & Richardson tableau a priori enclosure & \texttt{2.62460469e-81} & PASS \\
 \bottomrule
 \end{longtable}
 
-All eight declared checks passed:
+All nine declared checks passed:
 \[
 \boxed{\texttt{PI\_G\_CROSS\_DOMAIN\_CONSISTENCY\_CHECKS\_PASS}}.
 \]
@@ -352,7 +354,7 @@ The construction and verification are physically separated:
 
 \begin{itemize}[leftmargin=2em]
 \item \texttt{pi\_g\_construction.py} contains the algebraic seed, certified branch selection, polygon sequence, and extrapolation.  It does not import or reference classical $\pi$.
-\item \texttt{verify\_pi\_g\_identities.py} imports the completed construction and then performs the reference comparison and eight checks.
+\item \texttt{verify\_pi\_g\_identities.py} imports the completed construction and then performs the reference comparison and nine checks.
 \end{itemize}
 
 The canonical run command is
@@ -555,6 +557,26 @@ def richardson_n_series(values: Sequence[mp.mpf]) -> tuple[mp.mpf, tuple[mp.mpf,
     return final, tuple(diagonal)
 
 
+def richardson_tableau_weights(level_count: int, work_dps: int) -> tuple[mp.mpf, ...]:
+    """Return the fixed, data-independent weights of the final diagonal entry.
+
+    ``richardson_n_series`` is linear in its input values, so the final
+    diagonal entry can be written as ``sum_i weight_i * values[i]`` for a
+    weight vector that depends only on ``level_count`` (not on the data).
+    Those weights are recovered here by feeding unit basis vectors through
+    the identical routine used for construction.  This is exact linear
+    algebra, not a numerical fit: no reference constant is consulted.
+    """
+
+    with mp.workdps(work_dps):
+        weights = []
+        for i in range(level_count):
+            basis = [mp.mpf(1) if j == i else mp.mpf(0) for j in range(level_count)]
+            final, _ = richardson_n_series(basis)
+            weights.append(+final)
+        return tuple(weights)
+
+
 def compute_pi_g(*, level_count: int = 11, work_dps: int = 120) -> PiGConstructionResult:
     """Compute pi_g without consulting the classical constant pi.
 
@@ -612,7 +634,7 @@ The algebraic construction is imported from ``pi_g_construction.py``.  The
 classical constant pi is used only after construction, for a separately
 labelled reference comparison.  It is never used to choose or alter pi_g.
 
-The eight PASS criteria are direct identity residuals or explicit finite
+The nine PASS criteria are direct identity residuals or explicit finite
 truncation enclosures.  They are not comparisons between two right-hand sides
 that both already contain pi.
 """
@@ -633,7 +655,7 @@ from typing import Callable, Iterable
 import mpmath
 from mpmath import mp
 
-from pi_g_construction import PiGConstructionResult, compute_pi_g
+from pi_g_construction import PiGConstructionResult, compute_pi_g, richardson_tableau_weights
 
 
 DEFAULT_WORK_DPS = 120
@@ -918,6 +940,86 @@ def check_reflection_formula(pi_g: mp.mpf) -> CheckResult:
     )
 
 
+def check_richardson_enclosure(construction: PiGConstructionResult) -> CheckResult:
+    """A priori enclosure for the N-series Richardson diagonal (closes the
+    'internal last-diagonal delta is a diagnostic, not a bound' gap).
+
+    For N = 6*3^j, the exact identity Q_N := N*sin(pi/N) satisfies
+
+        Q_N = S_s(N) + T_s(N),
+
+    where S_s(N) = sum_{k=0}^{s} (-1)^k pi^(2k+1)/(2k+1)! * N^(-2k) is the
+    exact degree-s polynomial in N^(-2) coming from the classical sine
+    Taylor series (a closed-form analytic fact, not a numerical fit), and
+    T_s(N) is the Taylor remainder. Since pi/N <= pi/6 < 1 and the Taylor
+    terms of sin are alternating with strictly decreasing magnitude on this
+    range, the alternating-series remainder theorem gives the explicit,
+    unconditional bound
+
+        |T_s(N)| <= pi^(2s+3) / (2s+3)! / N^(2s+2).
+
+    richardson_n_series is a fixed linear combination of its n inputs, with
+    weights depending only on n, not on the data; those weights are
+    recovered exactly via richardson_tableau_weights. With s = n - 2, the
+    degree-s polynomial part S_s is annihilated exactly by an n-node
+    tableau (verified separately: feeding S_s through the tableau
+    reproduces pi to working-precision round-off, no remainder-bound
+    slack). The only surviving contributions to |diagonal(Q) - pi| are then:
+
+      (a) the weighted Taylor remainders  sum_i |w_i| * |T_s(N_i)|,
+      (b) the weighted propagated cubic-root bracket widths, since each
+          constructed value differs from the true Q_{N_i} by at most the
+          certified bracket width, and
+      (c) a fixed working-precision round-off allowance.
+
+    This bound never consults the numerical value of pi_g: it uses only
+    the closed-form sine Taylor remainder theorem and the data-independent
+    tableau weights.
+    """
+
+    n = construction.level_count
+    s = n - 2
+    if s < 1:
+        raise ValueError("level_count must be at least 3 for this enclosure")
+
+    with mp.workdps(construction.work_dps):
+        weights = richardson_tableau_weights(n, construction.work_dps)
+
+        def remainder_bound(level: int) -> mp.mpf:
+            n_sides = mp.mpf(6) * mp.power(3, level)
+            return mp.power(mp.pi, 2 * s + 3) / mp.factorial(2 * s + 3) / mp.power(
+                n_sides, 2 * s + 2
+            )
+
+        bracket_width = construction.maximum_root_bracket_width
+        roundoff = mp.power(10, -(construction.work_dps - 15))
+
+        enclosure = roundoff
+        for level in range(n):
+            enclosure += abs(weights[level]) * (remainder_bound(level) + bracket_width)
+
+    residual = abs(construction.value - mp.pi)
+
+    return CheckResult(
+        identifier="N9",
+        name="Richardson tableau a priori enclosure",
+        domain="Asymptotic analysis / numerical linear algebra",
+        method=(
+            "closed-form sine Taylor remainder bound combined with the "
+            "tableau's fixed data-independent linear weights and the "
+            "propagated cubic-root bracket width"
+        ),
+        observed_metric_name="abs(pi_g - pi) [reported for comparison; not used to derive the bound]",
+        observed_metric=residual,
+        acceptance_bound=enclosure,
+        passed=residual <= enclosure,
+        details=(
+            f"s={s} (degree of exactly-cancelled polynomial part); "
+            f"a priori enclosure={sci(enclosure)}"
+        ),
+    )
+
+
 def write_csv(path: Path, checks: Iterable[CheckResult]) -> None:
     fieldnames = [
         "identifier",
@@ -1032,6 +1134,7 @@ def main() -> None:
         check_gamma_half(construction.value),
         check_euler_identity(construction.value),
         check_reflection_formula(construction.value),
+        check_richardson_enclosure(construction),
     ]
 
     all_pass = all(check.passed for check in checks)
@@ -1166,8 +1269,11 @@ E7 Euler identity: observed=2.62460469419605053323428e-81; bound=1.0e-65; status
 R8 Euler reflection formula: observed=4.94323317499131269913202e-82; bound=1.0e-65; status=PASS
     method: direct normalized residual at three rational arguments
     details: z in {1/3, 2/5, 1/7}; worst z=0.4
+N9 Richardson tableau a priori enclosure: observed=2.62460469419605053323428e-81; bound=1.2457895335713805521915e-77; status=PASS
+    method: closed-form sine Taylor remainder bound combined with the tableau's fixed data-independent linear weights and the propagated cubic-root bracket width
+    details: s=9 (degree of exactly-cancelled polynomial part); a priori enclosure=1.24578953357138055e-77
 
-checks passed: 8/8
+checks passed: 9/9
 overall_verdict: PI_G_CROSS_DOMAIN_CONSISTENCY_CHECKS_PASS
 
 CLAIM BOUNDARY
