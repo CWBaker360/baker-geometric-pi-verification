@@ -10,6 +10,12 @@ suite, numerical ledgers, and report builder for:
 
 > **Cross-Domain Numerical Consistency Checks for Baker's Geometric Constant pi_g**
 
+## Zenodo publication
+
+DOI: [10.5281/zenodo.22128084](https://doi.org/10.5281/zenodo.22128084)
+
+The Zenodo deposit identifies the version 2.2.0 numerical-consistency report. This repository supplies the source, independent construction and verification modules, output ledgers, and report builder. The numerical suite supplies corroborative checks; it is not a standalone proof of equality of the constructed constant with classical pi.
+
 ## Read the report
 
 - [`paper/pi_g_verification_report.pdf`](paper/pi_g_verification_report.pdf)
